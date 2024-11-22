@@ -206,6 +206,23 @@ def analyze_latent(config: MOVEConfig) -> None:
 
     fig_df.to_csv(output_path / "latent_space.tsv", sep="\t")
 
+    ##aggiunta benedetta
+
+    logger.info("Saving full latent space with all dimensions")
+    latent_all_df = pd.DataFrame(
+        latent_space,
+        columns=[f"dim{i}" for i in range(latent_space.shape[1])],
+        index=df_index
+    )
+    latent_all_df.to_csv(output_path / "latent_all.tsv", sep="\t")
+    logger.info("Full latent space saved to 'latent_all.tsv'")
+
+
+
+
+
+
+
     logger.info("Reconstructing")
     cat_recons, con_recons = model.reconstruct(test_dataloader)
     con_recons = np.split(con_recons, np.cumsum(model.continuous_shapes[:-1]), axis=1)
